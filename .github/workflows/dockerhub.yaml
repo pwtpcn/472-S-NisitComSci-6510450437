@@ -65,6 +65,8 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/nisit-comsci-backend:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nisit-comsci-backend:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nisit-comsci-backend:buildcache,mode=max
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
   build-and-push-frontend:
     runs-on: ubuntu-latest
