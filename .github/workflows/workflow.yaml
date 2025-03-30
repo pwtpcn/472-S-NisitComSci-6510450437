@@ -45,10 +45,6 @@ jobs:
         run: bun test
         working-directory: cs472-back
 
-      - name: Run backend
-        run: bun run start
-        working-directory: cs472-back
-
   build-test-frontend:
     runs-on: ubuntu-latest
 
@@ -83,8 +79,4 @@ jobs:
 
       - name: Build the frontend
         run: bun run build
-        working-directory: cs472
-
-      - name: Run the frontend
-        run: bun run start
         working-directory: cs472
