@@ -1,0 +1,10 @@
+model Course {
+  course_id     String       @id @db.Char(8)
+  course_name   String       @unique @db.VarChar(50)
+  course_detail String
+  year          Int          @db.SmallInt
+  enrollment    Enrollment[]
+  exam          Exam[]
+  review        Review[]
+  teach         Teach[]
+}

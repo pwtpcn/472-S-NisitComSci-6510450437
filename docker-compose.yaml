@@ -1,0 +1,56 @@
+services:
+  remix:
+    build:
+      context: ./cs472
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./cs472
+        target: /app
+        consistency: delegated
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - app-network
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./cs472/*
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./cs472/package.json
+    command: sh -c "bun install && exec bun run dev --host"
+  elysia:
+    build:
+      context: ./cs472-back
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./cs472-back
+        target: /app
+        consistency: delegated
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - app-network
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./cs472-back/*
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./cs472-back/package.json
+    command: sh -c "bun install && bunx prisma generate && exec bun run dev --host"
+networks:
+  app-network:
+    driver: bridge

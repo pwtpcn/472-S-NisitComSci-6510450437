@@ -1,0 +1,19 @@
+model User {
+  uuid               String              @id @default(uuid()) @db.Uuid
+  name               String              @db.VarChar(15)
+  surname            String              @db.VarChar(15)
+  password           String
+  email              String              @unique @db.VarChar(20)
+  year               Int
+  role               Role                @default(student)
+  salt               String              @db.VarChar(10)
+  enrollment         Enrollment[]
+  PasswordResetToken PasswordResetToken?
+  review             Review[]
+  teach              Teach[]
+}
+
+enum Role {
+  student
+  teacher
+}

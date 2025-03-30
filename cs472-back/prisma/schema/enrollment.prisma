@@ -1,0 +1,8 @@
+model Enrollment {
+  user_uuid String @db.Uuid
+  course_id String
+  course    Course @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  user      User   @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@id([user_uuid, course_id])
+}

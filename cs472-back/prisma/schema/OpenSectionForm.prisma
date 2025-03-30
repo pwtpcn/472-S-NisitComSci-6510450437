@@ -1,0 +1,24 @@
+model OpenSectionForm {
+  Section_Form_ID           Int                  @id @default(autoincrement())
+  Section_Form_Name         String
+  Section_Form_Detail       String
+  Section_Form_Max_Number   Int
+  Section_Form_Nisit_Number Int
+  Section_Form_Date         DateTime             @default(now())
+  Section_Form_Status       SectionFormStatus
+  Section_Form_Nisits       SectionFormNisit[]
+}
+
+
+model SectionFormNisit {
+  Section_Form_Nisit_ID Int             @id @default(autoincrement())
+  nisitName             String
+  sectionFormId         Int
+  userId                String          @db.Uuid
+  form                  OpenSectionForm @relation(fields: [sectionFormId], references: [Section_Form_ID])
+}
+
+enum SectionFormStatus {
+  open
+  close
+}

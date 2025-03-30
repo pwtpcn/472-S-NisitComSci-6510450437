@@ -1,0 +1,82 @@
+name: NisitComSci CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build-test-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+
+      - name: Install backend dependencies
+        run: bun install
+        working-directory: cs472-back
+
+      - name: Set up Environment for backend
+        run: |
+          URL="${{ secrets.DATABASE_URL }}"
+          echo "DATABASE_URL=$URL" >> cs472-back/.env
+
+      - name: Initialize database
+        run: bunx prisma db pull
+        working-directory: cs472-back
+
+      - name: Generate Prisma Client
+        run: bunx prisma generate
+        working-directory: cs472-back
+
+      - name: Run the backend tests
+        run: bun test
+        working-directory: cs472-back
+
+  build-test-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+
+      - name: Install frontend dependencies
+        run: bun install
+        working-directory: cs472
+
+      - name: Set up Environment for frontend
+        run: |
+          BACKEND_URL="${{ secrets.BACKEND_URL }}"
+          AUTH_SECRET="${{ secrets.AUTH_SECRET }}"
+          echo "BACKEND_URL=$BACKEND_URL" >> cs472/.env
+          echo "AUTH_SECRET=$AUTH_SECRET" >> cs472/.env
+
+      - name: Run the frontend tests
+        run: bun test
+        working-directory: cs472
+
+      - name: Build the frontend
+        run: bun run build
+        working-directory: cs472

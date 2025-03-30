@@ -1,0 +1,10 @@
+model Exam {
+  exam_id    Int      @id @default(autoincrement())
+  course_id  String
+  room       String
+  start_time DateTime @db.Timestamptz(3)
+  end_time   DateTime @db.Timestamptz(3)
+  course     Course   @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+
+  @@unique([room, start_time, end_time]) //กันไม่ให้ทับห้องเดิมในเวลาเดียวกัน
+}
