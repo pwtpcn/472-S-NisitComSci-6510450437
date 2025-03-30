@@ -35,7 +35,7 @@ services:
         target: /app
         consistency: delegated
     ports:
-      - "3000:3000"
+      - "4000:4000"
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
