@@ -30,8 +30,9 @@ jobs:
 
       - name: Set up Environment for backend
         run: |
-          URL=${{secrets.DATABASE_URL}}
-          echo "DATABASE_URL=$URL" > cs472-back/.env
+          URL=${{ secrets.DATABASE_URL }}
+          echo "DATABASE_URL=$URL" > .env
+        working-directory: cs472-back
 
       - name: Initialize database
         run: bunx prisma db pull
@@ -68,10 +69,11 @@ jobs:
 
       - name: Set up Environment for frontend
         run: |
-          BACKEND_URL=${{secrets.BACKEND_URL}}
-          AUTH_SECRET=${{secrets.AUTH_SECRET}}
-          echo "BACKEND_URL=$BACKEND_URL" > cs472/.env
-          echo "AUTH_SECRET=$AUTH_SECRET" >> cs472/.env
+          BACKEND_URL=${{ secrets.BACKEND_URL }}
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          echo "BACKEND_URL=$BACKEND_URL" > .env
+          echo "AUTH_SECRET=$AUTH_SECRET" >> .env
+        working-directory: cs472
 
       - name: Run the frontend tests
         run: bun test
