@@ -27,7 +27,7 @@ FROM base AS release
 COPY --from=prerelease /usr/src/app .
 
 # Ensure DATABASE_URL is available at runtime
-ARG DATABASE_URL  # Declare build argument
+ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
 
 # Run prisma commands to update schema and generate client
