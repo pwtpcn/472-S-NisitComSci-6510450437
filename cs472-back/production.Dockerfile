@@ -30,6 +30,7 @@ COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/src/app/prisma ./prisma
 COPY --from=prerelease /usr/src/app/src ./src
 COPY --from=prerelease /usr/src/app/package.json ./
+COPY --from=prerelease /usr/src/app/.env ./
 
 # Database URL environment variable
 ARG DATABASE_URL="postgresql://username:password@domainOrIp:port/db_name?schema=public"
