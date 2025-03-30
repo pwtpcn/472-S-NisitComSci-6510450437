@@ -30,7 +30,7 @@ jobs:
 
       - name: Set up Environment for backend
         run: |
-          URL=${{ secrets.DATABASE_URL }}
+          URL="${{ secrets.DATABASE_URL }}"
           echo "DATABASE_URL=$URL" >> cs472-back/.env
 
       - name: Initialize database
@@ -68,8 +68,8 @@ jobs:
 
       - name: Set up Environment for frontend
         run: |
-          BACKEND_URL=${{ secrets.BACKEND_URL }}
-          AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+          BACKEND_URL="${{ secrets.BACKEND_URL }}"
+          AUTH_SECRET="${{ secrets.AUTH_SECRET }}"
           echo "BACKEND_URL=$BACKEND_URL" >> cs472/.env
           echo "AUTH_SECRET=$AUTH_SECRET" >> cs472/.env
 
