@@ -6,6 +6,8 @@ WORKDIR /temp
 # Copy the project files
 COPY . .
 
+RUN cd /temp
+
 # Install dependencies
 RUN bun install
 

@@ -9,7 +9,6 @@ on:
 jobs:
   build-and-push-backend:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
@@ -58,7 +57,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./cs472-back
           file: ./cs472-back/production.Dockerfile
           push: true
           tags: |
@@ -118,7 +117,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./cs472
           file: ./cs472/production.Dockerfile
           push: true
           tags: |
