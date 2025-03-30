@@ -32,7 +32,7 @@ jobs:
       - name: Set up Environment for backend
         run: |
           URL="${{secrets.DATABASE_URL}}"
-          echo "DATABASE_URL=$URL" > cs472-back/.env
+          echo "DATABASE_URL=$URL" >> cs472-back/.env
 
       - name: Initialize database
         run: bunx prisma db pull
@@ -58,7 +58,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./cs472-back
           file: ./cs472-back/production.Dockerfile
           push: true
           tags: |
@@ -67,7 +67,7 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nisit-comsci-backend:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nisit-comsci-backend:buildcache,mode=max
           build-args: |
-            DATABASE_URL="${{secrets.DATABASE_URL}}"
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
   build-and-push-frontend:
     runs-on: ubuntu-latest
@@ -95,7 +95,7 @@ jobs:
         run: |
           BACKEND_URL="${{secrets.BACKEND_URL}}"
           AUTH_SECRET="${{secrets.AUTH_SECRET}}"
-          echo "BACKEND_URL=$BACKEND_URL" > cs472/.env
+          echo "BACKEND_URL=$BACKEND_URL" >> cs472/.env
           echo "AUTH_SECRET=$AUTH_SECRET" >> cs472/.env
 
       - name: Run the frontend tests
@@ -118,7 +118,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./cs472
           file: ./cs472/production.Dockerfile
           push: true
           tags: |

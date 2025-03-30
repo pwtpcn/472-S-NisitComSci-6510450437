@@ -6,6 +6,8 @@ WORKDIR /temp
 # Copy the project files
 COPY . .
 
+RUN cd /temp
+
 # Install dependencies
 RUN bun install
 
@@ -27,6 +29,7 @@ WORKDIR /app
 COPY --from=build /temp/build /app/build
 COPY --from=build /temp/node_modules /app/node_modules
 COPY --from=build /temp/package.json /app/package.json
+COPY --from=build /temp/.env /app/.env
 
 # Clean up unnecessary temporary files
 RUN rm -rf /temp
